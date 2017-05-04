@@ -8,6 +8,38 @@ It is worth noting here that in the field of Computer Science, _Class_ has a for
 
 ## Building Objects with Functions
 
+### Most Simple Object Creation
+
+Object promote well organized code. Developers use them to encapsulate thematically or functionally interrelated data and behavior.
+
+Functions promote code reuse. Developers use them to execute large sections of code with a single function call.
+
+Objects and functions play well together. Consider the following `makeRowan` function which creates and returns an object, representing a person named Rowan:
+
+```javascript
+function makeRowan() {
+  let rowan = {
+    name: 'Rowan',
+    age: 0,
+    curious: true
+
+    laugh: function() {
+      console.log('Ehhhhhhhhhhhhh heh heh heh');
+    }
+  };
+
+  return rowan;
+}
+```
+
+The `rowan` object is an encapsulation of interrelated data and behavior, and using the `makeRowan` function, a new `rowan` object can be created with a simple function call:
+
+```javascript
+const rowan1 = makeRowan();
+const rowan2 = makeRowan();
+const rowan3 = makeRowan();
+```
+
 ## Sharing Object Properties and Methods with Prototypal Inheritance
 
 ## A Naive Approach to Object Context when Using Shared Methods
