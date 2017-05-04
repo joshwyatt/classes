@@ -40,6 +40,36 @@ const rowan2 = makeRowan();
 const rowan3 = makeRowan();
 ```
 
+### Passing Values for Dynamic Object Creation
+
+Very frequently, when developers wish to reuse code by calling functions, they want to have the ability to provide specifics about the code when calling the function. The ability to define parameters in function definitions and pass in arguments when calling functions greatly increases the flexibility around code reuse, thereby allowing for a much larger range of possible use cases for a given function.
+
+It is easy to imagine wishing to make objects not only for one single person, as `makeRowan` currently does, but for *any* person. In order to do this, the `makeRowan` function should be refectored such that the body of the function is more *general*, with the specifics for any particular object being passed in as arguments.
+
+```javascript
+function makePerson(name, age, laughter) {
+  let person = {
+    name: name,
+    age: age,
+    curious: true
+
+    laugh: function() {
+      console.log(laughter);
+    }
+  };
+
+  return person;
+}
+```
+
+Now using the `makePerson` function, a new person object can be created with a simple function call, and, by simply providing different arguments, the same function can be reused to create objects representing many different people:
+
+```javascript
+const rowan = makeRowan('Rowan', 0, 'Ehhhhhhhhhhhhh heh heh heh');
+const bonnie = makeRowan('Bonnie', 34, 'Hah!');
+const soren = makeRowan('Soren', 4, 'AHHHHH!!!!');
+```
+
 ## Sharing Object Properties and Methods with Prototypal Inheritance
 
 ## A Naive Approach to Object Context when Using Shared Methods
