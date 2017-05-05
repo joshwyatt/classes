@@ -15,6 +15,6 @@ After completing the reading and exercises in this repo you should be able to:
 
 ## Contents
 
-- Introduction
+- *Introduction*
 - [Building Objects with Functions](markdown/building_objects_with_functions.md)
 - [Shared Properties with `__proto__` and `prototype`](markdown/shared_properties.md)

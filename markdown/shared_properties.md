@@ -1,6 +1,16 @@
 # Shared Properties with `__proto__` and `prototype`
 
-## `__proto__`
+## Objectives
+
+After completing this section of the repo you should be able to:
+
+- Descibe the `__proto__` property on JavaScript values
+- Create objects with their `__proto__` pointing to a programmer defined object
+- Describe the `prototype` object on functions
+- Call functions with `new`
+- Understand `__proto__` and `prototype` in the wild
+
+## The `__proto__` Property on JavaScript Values
 
 In JavaScript every value except `null` and `undefined` has a `__proto__` property. The `__proto__` property for any value points to some object.
 
@@ -169,4 +179,4 @@ array.pop();                                        // works just fine
 
 - [Introduction](../README.md)
 - [Building Objects with Functions](building_objects_with_functions.md)
-- Shared Properties with `__proto__` and `prototype`
+- *Shared Properties with `__proto__` and `prototype`*

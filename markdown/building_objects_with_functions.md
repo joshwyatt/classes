@@ -1,5 +1,13 @@
 # Building Objects with Functions
 
+## Objectives
+
+After completing this section of the repo you should be able to:
+
+- Create objects with functions
+- Pass values for dynamic object creation
+- Articulate the desire to share object properties and methods
+
 ## Most Simple Object Creation
 
 Objects promote well organized code. Developers use them to encapsulate thematically or functionally interrelated data and behavior.
@@ -120,5 +128,5 @@ Obviously, programmers want to define functions as few times as is necessary to 
 ## Contents
 
 - [Introduction](../README.md)
-- Building Objects with Functions
+- *Building Objects with Functions*
 - [Shared Properties with `__proto__` and `prototype`](shared_properties.md)
