@@ -1,6 +1,8 @@
-In JavaScript every value except `null` and `undefined` has a `__proto__` property.
+# Shared Properties with `__proto__` and `prototype`
 
-The `__proto__` property for any value points to some object.
+## `__proto__`
+
+In JavaScript every value except `null` and `undefined` has a `__proto__` property. The `__proto__` property for any value points to some object.
 
 If there is ever a property lookup on a value that fails, the interpreter will go looking for the property on the object that the value's own `__proto__` property points to, until either the property is found, or, it arrives at a value without a `__proto__` property.
 
@@ -68,7 +70,7 @@ console.log(aFunction.prototype.constructor.name);   // 'aFunction'
 console.log(aFunction.prototype.constructor());      // logs 'I am a function'
 ```
 
-*(This article will avoid a long discussion of the `constructor` property, focusing instead on the `prototype` object itself.)*
+>This article will avoid a longer discussion of the `constructor` property, focusing instead on the `prototype` object itself.
 
 This `prototype` property on functions, which is an object, can be given additional properties:
 
@@ -162,3 +164,9 @@ console.log(Array.prototype.hasOwnProperty('pop')); // true
 
 array.pop();                                        // works just fine
 ```
+
+## Contents
+
+- [Introduction](../README.md)
+- [Building Objects with Functions](building_objects_with_functions.md)
+- Shared Properties with `__proto__` and `prototype`
