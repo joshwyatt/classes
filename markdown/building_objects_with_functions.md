@@ -24,7 +24,7 @@ function makeRowan() {
     curious: true,
 
     sleep: function() {
-      console.log('zzzzzzzzzz');
+      return 'zzzzzzzzzz';
     }
   };
 
@@ -49,11 +49,7 @@ const rowan3 = makeRowan();
 
 rowan1.name; // 'Rowan'
 rowan2.age;  // 0
-rowan3.sleep() // logs 'zzzzzzzzzz'
-console.log(rowan1 === rowan2);
-console.log(rowan1.age === rowan2.age);
-console.log(rowan1.sleep === rowan3.sleep);
-console.log(rowan1.sleep() === rowan3.sleep());
+rowan3.sleep() // 'zzzzzzzzzz'
 ```
 
 :question: What will the following log to the console, given the example code just above?
@@ -128,7 +124,7 @@ function makePerson(name, age) {
     curious: true
 
     sleep: function() {
-      console.log('zzzzzzzzzz');
+      return 'zzzzzzzzzz';
     }
   };
 
@@ -151,6 +147,7 @@ function makeLoggerFunction() {
   let loggerFunction = () {
     console.log('I am logger');
   }
+  return loggerFunction;
 }
 
 // If we want to use `loggerFunction` we can make it with `makeLoggerFunction`
@@ -166,6 +163,14 @@ loggerFunction(); // 'I am logger'
 ```
 
 Obviously, programmers want to define functions as few times as is necessary to promote code reuse, and consequently, save memory. JavaScript provides a mechanism for values (including objects that are returned by functions) to share properties, to which we will now turn our focus.
+
+## Review
+
+Before moving on to the next section of this repo make sure you are able to:
+
+- Create objects with functions
+- Pass values for dynamic object creation
+- Articulate the desire to share object properties and methods
 
 ## Contents
 
