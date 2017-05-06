@@ -265,62 +265,15 @@ array.pop();                                        // works just fine
 
 :question: Why does `'rowan'.toUpperCase()` work? Be sure to use the terms `__proto__` and `prototype` in your answer.
 
-:star: Using the browser console, prove the claim that "in JavaScript everything is nothing". Do this by digging into values of different types and showing that they all, eventually, inherit from `null`.
-
-## The Need for Shared Properties with Access to Unique Properties
-
-Let's look at the `makePerson` function from the [Building Objects with Functions](building_objects_with_functions.md) section, and consider how to refactor it to benefit from shared properties. Here is the original code:
-
-```javascript
-function makePerson(name, age) {
-  let person = {
-    name: name,
-    age: age,
-    curious: true
-
-    sleep: function() {
-      return 'zzzzzzzzzz';
-    }
-  };
-
-  return person;
-}
-```
-
-In order to refactor:
-
-1) The `person` object should be created using `Object.create(makePerson.prototype)`
-2) Methods shared amongst instances should be stored as properties on `makePerson.prototype`:
-
-```javascript
-function makePerson(name, age) {
-  let person = Object.create(makePerson.prototype); // 1
-
-  person.name = name;
-  person.age = age;
-  person.curious = true;
-
-  return person;
-}
-
-makePerson.prototype.sleep = function() {           // 2
-  return 'zzzzzzzzzz';
-};
-
-let ro = makePerson('Ro', 0);
-let soren = makePerson('Soren', 4);
-
-ro.name;     // 'Ro'
-soren.sleep; // 'zzzzzzzzzz'
-```
-
-This code works.
-
-What if we wanted, instead of manually creating the `person` object and returning it, to use the `new` keyword? We would know how to do this if the only property we wanted on each instance was the shared method `sleep`, however, how do we  What if we wanted, instead of manually creating the `person` object and returning it, to use the `new` keyword?
+:star: Using the browser console, prove the claim that "in JavaScript everything is nothing". Do this by digging into values of different types and showing that excpet for `undefined` they all, eventually, inherit from `null`. Note the prototype chain for each type of value on its way to eventually inheriting from `null`.
 
 ## Conclusion
 
 By calling functions with the `new` keyword, we can use them as class constructor functions that return object instances, each which will look for shared properties and methods defined on the class constructor's `prototype` object.
+
+Recall in the [Building Objects with Functions](building_objects_with_functions.md#the-desire-to-share-object-properties-and-methods) section the distinction made between object properties that are identical amongst instances, and can therefore be shared, and those that are potentially unique on account of using values passed in to the constructor function, which ought not to be shared amongst instances. This section largely focused on properties intended to be shared amongst instances, and did not discuss at all properties **not** intended to be shared.
+
+Given that the `new` keyword invisibly creates an object and returns it, how can properties be assigned to it? Furthermore, what if methods that are shred amongst instances wish to reference instance specific properties, how would this be possible? The next section makes clear the importance of these questions before moving on to answer them.
 
 ## Review
 
@@ -331,10 +284,11 @@ Before moving on to the next section of this repo, be sure you are able to:
 - Describe the `prototype` object on functions
 - Call functions to return objects with `new`, and understand the implications for the object's `__proto__` property
 - Understand `__proto__` and `prototype` in native JavaScript code
-- Prove that in JavaScript, everything is nothing
+- Prove that in JavaScript, "everything is nothing"
 
 ## Contents
 
 - [Introduction](../README.md)
 - [Building Objects with Functions](building_objects_with_functions.md)
 - *Shared Properties with `__proto__` and `prototype`*
+- [The Need for Shared Properties with Access to Unique Properties](shared_accessing_unique.md)
