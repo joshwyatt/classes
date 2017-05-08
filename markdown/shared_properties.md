@@ -351,3 +351,4 @@ Before moving on to the next section of this repo, be sure you are able to:
 - [Introduction](../README.md)
 - [Building Objects with Functions](building_objects_with_functions.md)
 - *Shared Properties with `__proto__` and `prototype`*
+- [Using the `this` Mechanism to Interact with Instance Specific Properties from Shared Properties](markdown/using_this.md)
