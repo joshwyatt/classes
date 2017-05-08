@@ -7,9 +7,9 @@ After completing this section of the repo you should be able to:
 - Describe the `__proto__` property on JavaScript values
 - Create objects with their `__proto__` pointing to a programmer defined object
 - Describe the `prototype` object on functions
-- Understand `__proto__` and `prototype` in native JavaScript code
+- Describe the use of `__proto__` and `prototype` in built in JavaScript code
 - Prove that in JavaScript, "everything is nothing"
-- Use constructor functions to create objects instances with both properties unique to themselves, and properties shared amongst all instances
+- Use constructor functions to create object instances with both properties unique to themselves, and properties shared amongst all instances
 
 ## The `__proto__` Property on JavaScript Values
 
@@ -202,7 +202,9 @@ console.log(bell1.ding === bell2.ding);                     // Should log `true`
 
 ## `__proto__` and `prototype` in Native JavaScript
 
-Remember [from above](#the-`__proto__`-property-on-javascript-values) that all values in JavaScript, except `null` and `undefined`, have `__proto__` properties.
+In fact, built in JavaScript code relies heavily on the use of `__proto__` and `prototype` so that developers can do things like use type specific methods (like `Array.forEach` and `String.split`) on every instance of that type, without having to create unique copies of these methods every time a new value is created.
+
+Remember [from above](#the-__proto__-property-on-javascript-values) that all values in JavaScript, except `null` and `undefined`, have `__proto__` properties. With that in mind:
 
 :speak_no_evil: Read the following section of code out loud, making arguments for each of the logs:
 
@@ -231,7 +233,7 @@ console.log(func.__proto__.__proto__.__proto__ === null)               // true
 
 :star2: Passing almost any value into `isNothing` below will cause it to return `true`.
 
-- Try it out and explain why
+- Try it out and explain why it works
 - What (legal) value can you pass into it to cause it to throw an error? Once you discover what the value is, explain why it throws an error?
 - Why does `isNothing` throw an error when passed no argument?
 
@@ -268,9 +270,6 @@ function makePerson(name, age) {
 
 ```javascript
 function makePerson(name, age) {
-}
-
-makePerson.prototype.sleep = function() {
 }
 
 let rowan = makePerson('rowan', 0);
@@ -324,6 +323,16 @@ Something very important that we have not yet learned is how to:
 
 - Use functions to create object instances that have unique properties, and, **shared properties with access to that particular instance's unique properties**
 
+For example what if every instance returned from `makePerson` were to **share** a method called `haveABirthday` that incremented the value of the **unique `age` property for the instance it was called on**?
+
+```javascript
+console.log(rowan.age);             // 0
+console.log(soren.age);             // 4
+console.log(rowan.haveABirthday()); // This method is shared, even though it only affects the `rowan` object
+console.log(rowan.age);             // 1 (updated by the call to `rowan.haveABirthday`)
+console.log(soren.age);             // 4 (not affected by the call to `rowan.haveABirthday`)
+```
+
 In order to do this we must learn how to utilize the `this` mechanism, to which we will now turn our focus.
 
 ## Review
@@ -333,13 +342,12 @@ Before moving on to the next section of this repo, be sure you are able to:
 - Describe the `__proto__` property on JavaScript values
 - Create objects with their `__proto__` pointing to a programmer defined object
 - Describe the `prototype` object on functions
-- Understand `__proto__` and `prototype` in native JavaScript code
+- Describe the use of `__proto__` and `prototype` in built in JavaScript code
 - Prove that in JavaScript, "everything is nothing"
-- Use constructor functions to create objects instances with both properties unique to themselves, and properties shared amongst all instances
+- Use constructor functions to create object instances with both properties unique to themselves, and properties shared amongst all instances
 
 ## Contents
 
 - [Introduction](../README.md)
 - [Building Objects with Functions](building_objects_with_functions.md)
 - *Shared Properties with `__proto__` and `prototype`*
-- [The Need for Shared Properties with Access to Unique Properties](shared_accessing_unique.md)

@@ -19,4 +19,3 @@ After completing the reading and exercises in this repo you should be able to:
 - *Introduction*
 - [Building Objects with Functions](markdown/building_objects_with_functions.md)
 - [Shared Properties with `__proto__` and `prototype`](markdown/shared_properties.md)
-- [The Need for Shared Properties with Access to Unique Properties](shared_accessing_unique.md)

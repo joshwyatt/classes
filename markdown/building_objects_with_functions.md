@@ -177,4 +177,3 @@ Before moving on to the next section of this repo make sure you are able to:
 - [Introduction](../README.md)
 - *Building Objects with Functions*
 - [Shared Properties with `__proto__` and `prototype`](shared_properties.md)
-- [The Need for Shared Properties with Access to Unique Properties](shared_accessing_unique.md)
