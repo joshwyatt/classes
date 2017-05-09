@@ -176,7 +176,36 @@ $('#submit').on($('#submit'), 'click', (e) => {console.log('clicked')});
 $('#submit').on('click', (e) => {console.log('clicked')});
 ```
 
-You can imagine any other number of situations where being required to always define and then pass in an argument to use for instance specific property lookup becomes nightmarish.
+You can imagine any other number of situations where being required to **explicitly** pass in an instance for property lookup within the shared method becomes nightmarish. Fortunately, JavaScript provides us a much more elegant way: the `this` mechanism.
+
+## The `this` Mechanism
+
+**`this` is used inside of function definitions to refer to some object. Just like with parameters in function definitions, we cannot know the actual value of `this` until the function is called.**
+
+Consider the function defintion `add` below which defines 2 parameters:
+
+```javascript
+function add(num1, num2) {
+  return num1 + num2;
+}
+```
+
+Although we can tell what will be done with the values represented by `num1` and `num2` by reading the function definition, they will not be assigned **actual** values until `add` is called and passed arguments. In order to determine what a parameter's actual value is, we simply look for the argument passed in at the same position that the parameter was defined:
+
+```javascript
+function add(num1, num2) {
+  return num1 + num2;
+}
+
+add(1, 2); // `num1` is `1` and `num2` is `2`
+add(10, 20); // `num1` is `10` and `num2` is `20`
+```
+
+Similarly, function definitions can refer to an object called `this` and we cannot know what its **actual** value is until the function is called. The rules by which we understand the **actual** value that `this` refers to are more complicated than for function parameters. Here is a summary of how to know what object `this` refers to. We will deal with each of them in order:
+
+- `this` refers to the object that the function was called as a method on...
+- ...unless the function is **bound** with either `call(object)`, `apply(object)`, or `bind(object)`, in which case `this` refers to whatever was passed in as `object`.
+- Superseding the other rules, if the function is called with the keyword `new`, `this` refers to the "invisible" object created, and potentially returned by calling the function with `new`
 
 ## Contents
 
