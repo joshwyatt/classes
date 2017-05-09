@@ -263,11 +263,11 @@ rowan.removeCharacteristic('diaperSize');
 console.log(rowan.diaperSize);               // undefined
 ```
 
-### Functions as Methods on the `window` and `global` Objects
+## Functions as Methods on the `window` and `global` Objects
 
-Regarding the rule that **`this` refers to the object that the function was called as a method on**, there is an important, and invisible, feature of JavaScript that needs pointing out. **Standalone functions, not called as methods on a specified object, are in fact methods on either, the `window` object (if run in a browser) or the `global` object (if run in NodeJS).**
+Regarding the rule that **`this` refers to the object that the function was called as a method on**, there is an important, and invisible, feature of JavaScript that needs pointing out. **Standalone functions, not called as methods on a specified object, are in fact called on  methods on either, the `window` object (if run in a browser) or the `global` object (if run in NodeJS).**
 
-#### In the Browser
+### In the Browser
 
 Consider the following code, assumed to be running in a browser:
 
@@ -283,7 +283,7 @@ function getWindowNum() {
 console.log(getWindowNum()); // 1
 ```
 
-#### In NodeJS
+### In NodeJS
 
 Consider the following code, assumed to be running in NodeJS:
 
@@ -299,14 +299,14 @@ function getGlobalNum() {
 console.log(getGlobalNum()); // 1
 ```
 
-#### A Crucial Gotcha'
+### A Crucial Gotcha'
 
 Given the following two facts:
 
 - `this` in a function defintion will be equal to the object that the function is called as a method on
-- Any standalone function is in fact called on a method on either `window` or `global` (depending on whether the code is run in the browser or NodeJS)
+- Any standalone function is in fact called as a method on either `window` or `global` (depending on whether the code is run in the browser or NodeJS)
 
-Care must be taken not to define `this` in a helper function, or anonymous callback function within a method defintion. Consider the following:
+care must be taken not to define `this` in a standalon helper function, or callback function within a method defintion. Consider the following:
 
 ```javascript
 function makePerson(friends, favoriteLetter) {
@@ -326,13 +326,29 @@ let friendsOfBonnie = ['Josh', 'Aron', 'Svea', 'Joe', 'Amrit'];
 let bonnie = makePerson(friendsOfBonnie, 'A');
 
 let favoriteLetterFriends = bonnie.getFriendsStartingWithFavoriteLetter();
+
+console.log(favoriteLetterFriends); // `[]` and NOT `['Aron', 'Amrit']`
 ```
 
 There are 2 ways to address this common gotcha', by using **arrow function expressions**, or, by **explicitly binding function defintions**.
 
-#### Arrow Functions Expressions Get `this` from Their Next Outer Scope
+## Arrow Functions Expressions Don't Get their own `this` When Called
 
-**Arrow function expressions are not given a `this` definition when called, but rather, utilize whatever `this` would be were the next outer lexical scope called.** This is incredibly useful when methods use higher order anonymous functions. By using arrow function expressions for their defintions, `this` will refer to the object housing the main method the arrow function expression is a part of, which was likely the intention to begin with. Thus, the above example could be made to behave as expected simply by refactoring the `filter` callback to be an arrow function expression:
+**Unlike all other JavaScript functions, Arrow function expressions are not given a `this` definition when called. Therefore, should their defintions contain reference to `this`, the interpreter will go looking in the next out lexical scope, as it would with any undefined variable.**
+
+Here's a simple example of utilizing a variable defined in an outer lexical scope:
+
+```javascript
+let name = 'rowan';
+
+function printName() {
+  console.log(name);
+}
+
+printName();
+```
+
+The fact that arrow function expressions don't create their own `this` is incredibly useful when instance methods use higher order anonymous functions. By using arrow function expressions for their defintions, `this` will refer to the object housing the main method that the arrow function expression is a part of, which was likely the intention to begin with. Thus, the above `favoriteLetterFriends` example could be made to behave as expected simply by refactoring the anonymous `filter` callback function to be an arrow function expression:
 
 ```javascript
 function makePerson(friends, favoriteLetter) {
@@ -350,6 +366,127 @@ let friendsOfBonnie = ['Josh', 'Aron', 'Svea', 'Joe', 'Amrit'];
 let bonnie = makePerson(friendsOfBonnie, 'A');
 
 let favoriteLetterFriends = bonnie.getFriendsStartingWithFavoriteLetter();
+console.log(favoriteLetterFriends); // ['Aron', 'Amrit']
+```
+
+## Using `bind` to Control What `this` Will Be When a Function is Called
+
+**All JavaScript function defintions have available on them a `bind` method that takes an object as its only argument. Calling the `bind` method on a JavaScript function definition will return a new function with the same defintion where any references to `this` will point to the object passed into `bind` when the function is called**.
+
+```javascript
+let rowan = {
+  name: 'Rowan'
+};
+
+let soren = {
+  name: 'Soren'
+};
+
+function sayName() {
+  console.log(this.name);
+};
+
+let sayRowan = sayName.bind(rowan);
+sayRowan(); // 'Rowan'
+
+let saySoren = sayName.bind(soren);
+saySoren(); // 'Soren'
+```
+
+Therefore an alternative solution to the `favoriteLetterFriends` function is to call `bind` on the anonymous callback function definition, thereby returning a bound function to be passed in as the argument to `filter`:
+
+```javascript
+function makePerson(friends, favoriteLetter) {
+  let newPerson = Object.create(makePerson.prototype);
+  newPerson.friends = friends;
+  newPerson.favoriteLetter = favoriteLetter;
+  return newPerson;
+}
+
+makePerson.prototype.getFriendsStartingWithFavoriteLetter = function() {
+  return this.friends.filter(function(friend) {
+    return friend.startsWith(this.favoriteLetter);
+  }.bind(this));
+};
+
+let friendsOfBonnie = ['Josh', 'Aron', 'Svea', 'Joe', 'Amrit'];
+let bonnie = makePerson(friendsOfBonnie, 'A');
+
+let favoriteLetterFriends = bonnie.getFriendsStartingWithFavoriteLetter();
+
+console.log(favoriteLetterFriends); // ['Aron', 'Amrit']`
+```
+
+## Explicitly Stating a `this` Binding with `call` or `apply`
+
+**Rather than calling a function definition directly by adding `()` to it, it can be called with either its `call` method or `apply` method, each which take a first argument specifying what any reference to `this` in the function definition should point to.**
+
+```javascript
+let rowan = {
+  name: 'Rowan'
+};
+
+let soren = {
+  name: 'Soren'
+};
+
+function sayName() {
+  console.log(this.name);
+};
+
+sayName.call(rowan); // 'Rowan'
+
+sayName.call(soren); // 'Soren'
+```
+
+If the function expects arguments, these are passed in after the first `this` binding argument. When using `call`, the additional arguments are passed in as comma separated arguments, when using `apply` they are passed in as a single array:
+
+```javascript
+function greet(salutation, punctuation) {
+  console.log(`${salutation}, my name is ${this.name} and I am ${this.age} years old${punctuation}`);
+}
+
+let rowan = {
+  name: 'Rowan',
+  age: 0
+};
+
+let soren = {
+  name: 'Soren',
+  age: 4
+};
+
+greet.call(rowan, 'Howdy', '?'); // 'Howdy, my name is Rowan and I am 0 years old?'
+greet.apply(soren, ['Hi', '!']); // 'Hi, my name is Soren and I am 4 years old!'
+```
+
+`call` and `apply` are useful when you need to create helper or utility functions to operate on class instances that you would not wish to define on within the class constructor itself, or are unable to do so. For example, writing a throw away debugging function to inspect the behavior of a class instance, or, writing a function to interact with an instance of a class that you do not have access to because it was defined in a library you are using.
+
+## The Keyword `new`
+
+**Calling a function with the `new` keyword will cause the function to "invisibly":**
+
+- **Create a new object whose `__proto__` points to the function's `prototype` property**
+- **Bind all uses of `this` in the function definition to this newly created "invisible" object**
+- **Return this newly created object if the function does not already have a `return` statement**
+
+Creating class constructor functions intended to be called with the keyword `new` make writing class constructor's more terse and elegant than otherwise. At the same time, understanding the implications of using it require a lot of knowledge about a lot of the inner workings of JavaScript. Because calling a function with `new` is so much different than calling it without, function definitions intended to be called with the `new` keyword are, by convention, capitalized:
+
+```javascript
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+}
+
+Person.prototype.greet = function(salutation, punctuation) {
+  console.log(`${salutation}, my name is ${this.name} and I am ${this.age} years old${punctuation}`);
+}
+
+let rowan = new Person('Rowan', 0);
+let soren = new Person('Soren', 4);
+
+rowan.greet('Howdy', '?'); // 'Howdy, my name is Rowan and I am 0 years old?'
+soren.greet('Hi', '!');    // 'Hi, my name is Soren and I am 4 years old!'
 ```
 
 ## Contents
