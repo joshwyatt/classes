@@ -207,6 +207,151 @@ Similarly, function definitions can refer to an object called `this` and we cann
 - ...unless the function is **bound** with either `call(object)`, `apply(object)`, or `bind(object)`, in which case `this` refers to whatever was passed in as `object`.
 - Superseding the other rules, if the function is called with the keyword `new`, `this` refers to the "invisible" object created, and potentially returned by calling the function with `new`
 
+## `this` Referring to the Object that a Function was Called as a Method On
+
+By far the most common use for the `this` mechanism is to use it in shared methods to refer to a specific object instance. In the following example, the shared method `sayName` uses `this` so that any instance can call the method with the method having access to that instances `name` property:
+
+```javascript
+function createPerson(name) {
+  let newPerson = Object.create(createPerson.prototype);
+  newPerson.name = name;
+  return newPerson;
+}
+
+createPerson.prototype.sayName = function() {
+  let name = this.name;
+  return `Hello, my name is ${name}`;
+}
+
+let rowan = createPerson('Rowan');
+let soren = createPerson('Soren');
+
+console.log(rowan.sayName()); // 'Rowan'
+console.log(soren.sayName()); // 'Soren'
+```
+
+Because `this` stands in for an instance object, it can be used to add properties on the instance, update properties on the instance, and delete properties on the instance:
+
+```javascript
+function createPerson(name) {
+  let newPerson = Object.create(createPerson.prototype);
+  newPerson.name = name;
+  return newPerson;
+}
+
+createPerson.prototype.addCharacteristic = function(characteristic, initialValue) {
+  this[characteristic] = initialValue;
+}
+
+createPerson.prototype.updateCharacteristic = function(characteristic, newValue) {
+  this[characteristic] = newValue;
+}
+
+createPerson.prototype.removeCharacteristic = function(characteristic) {
+  delete this[characteristic];
+}
+
+let rowan = createPerson('Rowan');
+let soren = createPerson('Soren');
+
+console.log(rowan.diaperSize);               // undefined
+rowan.addCharacteristic('diaperSize', 3);
+console.log(rowan.diaperSize);               // 3
+rowan.updateCharacteristic('diaperSize', 4);
+console.log(rowan.diaperSize);               // 4
+rowan.removeCharacteristic('diaperSize');
+console.log(rowan.diaperSize);               // undefined
+```
+
+### Functions as Methods on the `window` and `global` Objects
+
+Regarding the rule that **`this` refers to the object that the function was called as a method on**, there is an important, and invisible, feature of JavaScript that needs pointing out. **Standalone functions, not called as methods on a specified object, are in fact methods on either, the `window` object (if run in a browser) or the `global` object (if run in NodeJS).**
+
+#### In the Browser
+
+Consider the following code, assumed to be running in a browser:
+
+```javascript
+console.log(typeof window);  // 'object'
+
+window.num = 1;
+console.log(window.num)      // 1
+
+function getWindowNum() {
+  return this.num;
+}
+console.log(getWindowNum()); // 1
+```
+
+#### In NodeJS
+
+Consider the following code, assumed to be running in NodeJS:
+
+```javascript
+console.log(typeof global); // 'object'
+
+global.num = 1;
+console.log(global.num) // 1
+
+function getGlobalNum() {
+  return this.num;
+}
+console.log(getGlobalNum()); // 1
+```
+
+#### A Crucial Gotcha'
+
+Given the following two facts:
+
+- `this` in a function defintion will be equal to the object that the function is called as a method on
+- Any standalone function is in fact called on a method on either `window` or `global` (depending on whether the code is run in the browser or NodeJS)
+
+Care must be taken not to define `this` in a helper function, or anonymous callback function within a method defintion. Consider the following:
+
+```javascript
+function makePerson(friends, favoriteLetter) {
+  let newPerson = Object.create(makePerson.prototype);
+  newPerson.friends = friends;
+  newPerson.favoriteLetter = favoriteLetter;
+  return newPerson;
+}
+
+makePerson.prototype.getFriendsStartingWithFavoriteLetter = function() {
+  return this.friends.filter(function(friend) {
+    return friend.startsWith(this.favoriteLetter);
+  });
+};
+
+let friendsOfBonnie = ['Josh', 'Aron', 'Svea', 'Joe', 'Amrit'];
+let bonnie = makePerson(friendsOfBonnie, 'A');
+
+let favoriteLetterFriends = bonnie.getFriendsStartingWithFavoriteLetter();
+```
+
+There are 2 ways to address this common gotcha', by using **arrow function expressions**, or, by **explicitly binding function defintions**.
+
+#### Arrow Functions Expressions Get `this` from Their Next Outer Scope
+
+**Arrow function expressions are not given a `this` definition when called, but rather, utilize whatever `this` would be were the next outer lexical scope called.** This is incredibly useful when methods use higher order anonymous functions. By using arrow function expressions for their defintions, `this` will refer to the object housing the main method the arrow function expression is a part of, which was likely the intention to begin with. Thus, the above example could be made to behave as expected simply by refactoring the `filter` callback to be an arrow function expression:
+
+```javascript
+function makePerson(friends, favoriteLetter) {
+  let newPerson = Object.create(makePerson.prototype);
+  newPerson.friends = friends;
+  newPerson.favoriteLetter = favoriteLetter;
+  return newPerson;
+}
+
+makePerson.prototype.getFriendsStartingWithFavoriteLetter = function() {
+  return this.friends.filter(friend => friend.startsWith(this.favoriteLetter))
+};
+
+let friendsOfBonnie = ['Josh', 'Aron', 'Svea', 'Joe', 'Amrit'];
+let bonnie = makePerson(friendsOfBonnie, 'A');
+
+let favoriteLetterFriends = bonnie.getFriendsStartingWithFavoriteLetter();
+```
+
 ## Contents
 
 - [Introduction](../README.md)
