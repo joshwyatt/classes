@@ -475,7 +475,7 @@ Creating class constructor functions intended to be called with the keyword `new
 ```javascript
 function Person(name, age) {
   // Imagine the next line being inserted "invisibly" when and if this function is called with `new`
-  // this = Object.create(Person.prototype);
+  // let this = Object.create(Person.prototype);
 
   this.name = name;
   this.age = age;
@@ -498,6 +498,7 @@ soren.greet('Hi', '!');    // 'Hi, my name is Soren and I am 4 years old!'
 ## Contents
 
 - [Introduction](../README.md)
-- [Building Objects with Functions](markdown/building_objects_with_functions.md)
-- [Shared Properties with `__proto__` and `prototype`](markdown/shared_properties.md)
+- [Building Objects with Functions](building_objects_with_functions.md)
+- [Shared Properties with `__proto__` and `prototype`](shared_properties.md)
 - *Using the `this` Mechanism to Interact with Instance Specific Properties from Shared Properties*
+- [Subclassing](subclassing.md)
