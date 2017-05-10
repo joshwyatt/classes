@@ -474,8 +474,14 @@ Creating class constructor functions intended to be called with the keyword `new
 
 ```javascript
 function Person(name, age) {
+  // Imagine the next line being inserted "invisibly" when and if this function is called with `new`
+  // this = Object.create(Person.prototype);
+
   this.name = name;
   this.age = age;
+
+  // Imagine the next line being inserted "invisibly" when and if this function is called with `new`
+  // return this;
 }
 
 Person.prototype.greet = function(salutation, punctuation) {
