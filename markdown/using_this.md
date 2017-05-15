@@ -5,6 +5,8 @@
 By the time you complete this section, you should be able to:
 
 - Articulate the need for shared methods to interact with instance specific properties
+- Use the `this` mechanism to to access instance specific properties from within shared methods
+- Understand and utilize the different ways to identify what `this` refers to when a function is run
 
 ## The Need for Shared Methods to Interact with Instance Specific Properties
 
