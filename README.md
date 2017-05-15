@@ -13,6 +13,8 @@ After completing the reading and exercises in this repo you should be able to:
 - Build Objects with Functions
 - Share Properties with `__proto__` and `prototype`
 - Use the `this` Mechanism to Interact with Instance Specific Properties from Shared Properties
+- Create Subclass Constructor Functions
+- Refactor Class and Subclass Constructor functions to utilize ES6 `class` syntax
 
 ## Contents
 
