@@ -21,3 +21,4 @@ After completing the reading and exercises in this repo you should be able to:
 - [Shared Properties with `__proto__` and `prototype`](markdown/shared_properties.md)
 - [Using the `this` Mechanism to Interact with Instance Specific Properties from Shared Properties](markdown/using_this.md)
 - [Subclassing](markdown/subclassing.md)
+- [ES6 Classes](markdown/es6_classes.md)

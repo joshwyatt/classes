@@ -253,4 +253,4 @@ console.log(emmaTheProgrammer.writeCode()); // 'code'
 - [Shared Properties with `__proto__` and `prototype`](shared_properties.md)
 - [Using the `this` Mechanism to Interact with Instance Specific Properties from Shared Properties](using_this.md)
 - *Subclassing*
-
+- [ES6 Classes](es6_classes.md)

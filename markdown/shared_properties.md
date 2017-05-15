@@ -353,3 +353,4 @@ Before moving on to the next section of this repo, be sure you are able to:
 - *Shared Properties with `__proto__` and `prototype`*
 - [Using the `this` Mechanism to Interact with Instance Specific Properties from Shared Properties](using_this.md)
 - [Subclassing](subclassing.md)
+- [ES6 Classes](es6_classes.md)

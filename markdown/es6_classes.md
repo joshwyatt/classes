@@ -92,3 +92,12 @@ console.log(jo.canCode); // undefined
 console.log(emmaTheProgrammer.canCode); // true
 console.log(emmaTheProgrammer.writeCode()); // 'code'
 ```
+
+## Contents
+
+- [Introduction](../README.md)
+- [Building Objects with Functions](building_objects_with_functions.md)
+- [Shared Properties with `__proto__` and `prototype`](shared_properties.md)
+- [Using the `this` Mechanism to Interact with Instance Specific Properties from Shared Properties](using_this.md)
+- [Subclassing](subclassing.md)
+- *ES6 Classes*

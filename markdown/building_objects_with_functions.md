@@ -179,3 +179,4 @@ Before moving on to the next section of this repo make sure you are able to:
 - [Shared Properties with `__proto__` and `prototype`](shared_properties.md)
 - [Using the `this` Mechanism to Interact with Instance Specific Properties from Shared Properties](markdown/using_this.md)
 - [Subclassing](subclassing.md)
+- [ES6 Classes](es6_classes.md)

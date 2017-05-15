@@ -502,3 +502,4 @@ soren.greet('Hi', '!');    // 'Hi, my name is Soren and I am 4 years old!'
 - [Shared Properties with `__proto__` and `prototype`](shared_properties.md)
 - *Using the `this` Mechanism to Interact with Instance Specific Properties from Shared Properties*
 - [Subclassing](subclassing.md)
+- [ES6 Classes](es6_classes.md)
