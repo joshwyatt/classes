@@ -1,5 +1,12 @@
 # Subclassing
 
+## Objectives
+
+By the time you complete this section you should be able to:
+
+- Create a subclass constructor function with access to superclass methods
+- Create subclass instance specific properties and methods
+
 ## Code Reuse with Superclasses and Subclasses
 
 Continuing on the topic of code reuse, a common scenario is to want to create a class constructor function that will return instances very much like instances returned by an already existing class constructor with but with some additional or modified functionality. Here's a simplified of the `Person` constructor function from the last section:
