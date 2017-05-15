@@ -1,6 +1,14 @@
 # ES6 Classes
 
+## Introduction
+
 Now that you know all the gory details of class constructor functions, including how to create instances with shared methods having access to instance specific properties, and, how to subclass these class constructor functions, it's time to show you the sweet sweet syntactic sugar magic of `this`, `new`, `class` ✨ syntax created in ES6.
+
+## Objectives
+
+By the end of this section you should be able to:
+
+- Refactor legacy JavaScript class and subclass constructors to use ES6 `class` syntax
 
 ## The Current Situation
 
@@ -41,6 +49,8 @@ console.log(jo.canCode); // undefined
 console.log(emmaTheProgrammer.canCode); // true
 console.log(emmaTheProgrammer.writeCode()); // 'code'
 ```
+
+## A Refactor Recipe
 
 To refactor class constructor functions to utilize the ES6 `class` syntax use the following recipe:
 
